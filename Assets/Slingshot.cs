@@ -23,16 +23,15 @@ public class Slingshot : MonoBehaviour
 	void OnMouseEnter()
 	{
 		//print("Slingshot:OnMouseEnter()");
-		launchPoint.SetActive(true);                                                                                                                                                                          //	b
+		launchPoint.SetActive(true);     
 	}
 	void OnMouseExit()
 	{
 		//print("Slingshot:OnMouseExit()");
-		launchPoint.SetActive(false);                                                                                                                                                                      //	b
+		launchPoint.SetActive(false);    
 	}
 	void OnMouseDown()
-	{                                                                                                                                                                                                               //	d
-																																																					//	The	player	has	pressed	the	mouse	button	while	over	Slingshot
+	{ 
 		aimingMode = true;
 		projectile = Instantiate(prefabProjectile) as GameObject;
 		projectile.transform.position = launchPos;
@@ -44,10 +43,9 @@ public class Slingshot : MonoBehaviour
 	{
 		if (!aimingMode) return;
 
-		Vector3 mousePos2D = Input.mousePosition;                                                                                                                                        //	c
+		Vector3 mousePos2D = Input.mousePosition;
 		mousePos2D.z = -Camera.main.transform.position.z;
 		Vector3 mousePos3D = Camera.main.ScreenToWorldPoint(mousePos2D);
-
 		Vector3 mouseDelta = mousePos3D - launchPos;
 
 		float maxMagnitude = this.GetComponent<SphereCollider>().radius;
@@ -60,11 +58,11 @@ public class Slingshot : MonoBehaviour
 		Vector3 projPos = launchPos + mouseDelta;
 		projectile.transform.position = projPos;
 		if (Input.GetMouseButtonUp(0))
-		{                                                                                                                                                               //	e
-																																										//	The	mouse	has	been	released
+		{    
 			aimingMode = false;
 			projectileRigidbody.isKinematic = false;
 			projectileRigidbody.velocity = -mouseDelta * velocityMult;
+			FollowCam.POI = projectile;
 			projectile = null;
 		}
 	}
